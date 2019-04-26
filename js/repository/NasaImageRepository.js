@@ -10,3 +10,11 @@ async function getCurrentImage() {
     result.url,
     result.hdurl);
 }
+
+function editFavourites(imageId, nasaImage, favourite){
+  if (favourite) {
+    firebase.database().ref('favourites/').child(imageId).set(nasaImage);
+  } else {
+    firebase.database().ref('favourites/').child(imageId).remove();
+  }
+}

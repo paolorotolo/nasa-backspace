@@ -69,14 +69,36 @@
   </div>
 </div>
 
+<!-- Firebase config -->
+<!-- Insert these scripts at the bottom of the HTML, but before you use any Firebase services -->
+
+<!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/5.10.1/firebase-app.js"></script>
+
+<!-- Add Firebase products that you want to use -->
+<script src="https://www.gstatic.com/firebasejs/5.10.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.10.1/firebase-database.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyBb9EafWdjyjEkFMn5Vfq9s0CIHXMxLWmU",
+    authDomain: "wallspace-c6478.firebaseapp.com",
+    databaseURL: "https://wallspace-c6478.firebaseio.com",
+    projectId: "wallspace-c6478",
+    storageBucket: "wallspace-c6478.appspot.com",
+    messagingSenderId: "725141053088"
+  };
+  firebase.initializeApp(config);
+</script>
+
   <script src="js/vendor/modernizr-3.7.1.min.js"></script>
   <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
   <script>window.jQuery || document.write('<script src="js/vendor/jquery-3.3.1.min.js"><\/script>')</script>
   <!--JavaScript at end of body for optimized loading-->
   <script type="text/javascript" src="js/materialize.min.js"></script>
   <script src="js/require.js"></script>
-<script src="js/networking/HTTPRequestHelper.js"></script>
-<script src="js/data/NasaImage.js"></script>
+ <script src="js/networking/HTTPRequestHelper.js"></script>
+ <script src="js/data/NasaImage.js"></script>
   <script src="js/repository/NasaImageRepository.js"></script>
   <script src="js/main.js" type="module"></script>
 </body>

@@ -30,11 +30,13 @@ $(document).ready(function () {
       isTodayFavourite = !isTodayFavourite;
 
       if (isTodayFavourite) {
-        $('#favouriteButton').text("favorite")
-        generateMessage("Added to favourites")
+        $('#favouriteButton').text("favorite");
+        generateMessage("Added to favourites");
+        editFavourites(getTodayImageId(), currentImage, true);
       } else {
-        $('#favouriteButton').text("favorite_border")
-        generateMessage("Removed from favourites")
+        $('#favouriteButton').text("favorite_border");
+        generateMessage("Removed from favourites");
+        editFavourites(getTodayImageId(), currentImage, false);
       }
     });
 
@@ -59,5 +61,11 @@ $(document).ready(function () {
       // Show current message
       M.toast({html: text, classes: 'rounded'})
 
+    }
+
+    function getTodayImageId(){
+      let currentDay = new Date();
+      currentDay.setUTCHours(0,0,0,0);
+      return +currentDay;
     }
 });

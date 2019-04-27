@@ -11,19 +11,19 @@ async function getCurrentImage() {
     result.hdurl);
 }
 
-function editFavourites(imageId, nasaImage, favourite){
+function editFavourites(userId, imageId, nasaImage, favourite){
   if (favourite) {
-    firebase.database().ref('favourites/').child(imageId).set(nasaImage);
+    firebase.database().ref('/').child(userId).child('favourites/').child(imageId).set(nasaImage);
   } else {
-    firebase.database().ref('favourites/').child(imageId).remove();
+    firebase.database().ref('/').child(userId).child('favourites/').child(imageId).remove();
   }
 }
 
-function getFavourites() {
+function getFavourites(userId) {
   return new Promise(resolve => {
       let images = [];
 
-      firebase.database().ref('favourites/').once('value').then(
+      firebase.database().ref('favourites/').child(userId).once('value').then(
       // Get each image form db and att to array
       function (snapshot) {
         snapshot.forEach(function(item) {

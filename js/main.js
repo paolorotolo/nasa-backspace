@@ -6,11 +6,13 @@ $(document).ready(function () {
   let currentImage = null;
 
   let provider = new firebase.auth.GoogleAuthProvider();
+  let userId = "";
 
   // OBSERVE AUTH
   firebase.auth().onAuthStateChanged(function(user) {
     console.log(user);
     if (user) {
+      userId = user.uid;
       isLoggedIn = true;
 
       // User is signed in.
@@ -72,11 +74,11 @@ $(document).ready(function () {
         if (isTodayFavourite) {
           $('#favouriteButton').text("favorite");
           generateMessage("Added to favourites");
-          editFavourites(getTodayImageId(), currentImage, true);
+          editFavourites(userId, getTodayImageId(), currentImage, true);
         } else {
           $('#favouriteButton').text("favorite_border");
           generateMessage("Removed from favourites");
-          editFavourites(getTodayImageId(), currentImage, false);
+          editFavourites(userId, getTodayImageId(), currentImage, false);
         }
       } else {
         generateMessage("Please log in first")

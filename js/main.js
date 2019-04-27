@@ -1,8 +1,32 @@
 
 
 $(document).ready(function () {
+  let isLoggedIn = false;
   let isTodayFavourite = false;
   let currentImage = null;
+
+  let provider = new firebase.auth.GoogleAuthProvider();
+
+  // OBSERVE AUTH
+  firebase.auth().onAuthStateChanged(function(user) {
+    console.log(user);
+    if (user) {
+      isLoggedIn = true;
+
+      // User is signed in.
+      $("#infoLoginButton").addClass("hide");
+      $("#infoLoginButton").addClass("hide");
+      $("#archiveButton").removeClass("hide")
+      $("#logoutButton").removeClass("hide");
+    } else {
+      isLoggedIn = false;
+
+      // No user is signed in.
+      $("#logoutButton").addClass("hide");
+      $("#infoLoginButton").removeClass("hide");
+      $("#archiveButton").addClass("hide");
+    }
+  });
 
   // GET TODAY IMAGE
   getTodayImage();
@@ -18,54 +42,44 @@ $(document).ready(function () {
     $("#loadingImage").remove();
   }
 
+  function loginWithGoogle(){
+    firebase.auth().signInWithPopup(provider);
+  }
+
+  function logout() {
+    firebase.auth().signOut();
+  }
+
   function popolateUi() {
     $("#mainImage").css("background-image", "url(" + currentImage.hdUrl + "");
     $("#imageTitle").text(currentImage.title);
     $("#imageExplanation").text(currentImage.desc);
   }
 
-  function loadFavourites() {
-    getFavourites().then(function (images) {
-      console.log(images)
-      images.forEach(function (image) {
-        $('#photoArchive').append('<div class="row center ">\n' +
-          '    <div class="col offset-s4 s4">\n' +
-          '      <div class="card">\n' +
-          '        <div class="card-image">\n' +
-          '          <img src="' +
-          image.url +
-          '">\n' +
-          '          <span class="card-title">' +
-          image.title +
-          '</span>\n' +
-          '          <a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">add</i></a>\n' +
-          '        </div>\n' +
-          '        <div class="card-content">\n' +
-          '          <p>' +
-          image.desc +
-          '</p>\n' +
-          '        </div>\n' +
-          '      </div>\n' +
-          '    </div>\n' +
-          '  </div>');
-      })
-    })
-  }
-
   function addClickListeners() {
-    loadFavourites();
+    $('#infoLoginButton').click(function () {
+      loginWithGoogle()
+    });
+
+    $('#logoutButton').click(function () {
+      logout()
+    });
     $('#favouriteButton').click(function () {
+      // Check if logged in first
+      if (isLoggedIn) {
+        isTodayFavourite = !isTodayFavourite;
 
-      isTodayFavourite = !isTodayFavourite;
-
-      if (isTodayFavourite) {
-        $('#favouriteButton').text("favorite");
-        generateMessage("Added to favourites");
-        editFavourites(getTodayImageId(), currentImage, true);
+        if (isTodayFavourite) {
+          $('#favouriteButton').text("favorite");
+          generateMessage("Added to favourites");
+          editFavourites(getTodayImageId(), currentImage, true);
+        } else {
+          $('#favouriteButton').text("favorite_border");
+          generateMessage("Removed from favourites");
+          editFavourites(getTodayImageId(), currentImage, false);
+        }
       } else {
-        $('#favouriteButton').text("favorite_border");
-        generateMessage("Removed from favourites");
-        editFavourites(getTodayImageId(), currentImage, false);
+        generateMessage("Please log in first")
       }
     });
 
@@ -76,7 +90,6 @@ $(document).ready(function () {
     $('#infoImageButton').click(function () {
       $('#infoImage').removeClass("hide");
     });
-
 
     $('#shareInfo').click(function () {
         window.open("https://www.facebook.com/sharer.php?u=" + "https://apod.nasa.gov/apod/astropix.html");
@@ -89,7 +102,6 @@ $(document).ready(function () {
 
       // Show current message
       M.toast({html: text, classes: 'rounded'})
-
     }
 
     function getTodayImageId(){

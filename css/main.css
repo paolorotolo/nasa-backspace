@@ -54,6 +54,11 @@ body {
   left:5%;
 }
 
+.photoArchive {
+  width: 50%;
+  margin: 0 auto;
+}
+
 /*
  * Remove text-shadow in selection highlight:
  * https://twitter.com/miketaylr/status/12228805301

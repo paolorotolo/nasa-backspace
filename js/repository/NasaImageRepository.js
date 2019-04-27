@@ -18,3 +18,20 @@ function editFavourites(imageId, nasaImage, favourite){
     firebase.database().ref('favourites/').child(imageId).remove();
   }
 }
+
+function getFavourites() {
+  return new Promise(resolve => {
+      let images = [];
+
+      firebase.database().ref('favourites/').once('value').then(
+      // Get each image form db and att to array
+      function (snapshot) {
+        snapshot.forEach(function(item) {
+          images.push(item.val());
+        });
+
+        // When done return the array
+        resolve(images);
+      });
+  })
+}

@@ -24,7 +24,35 @@ $(document).ready(function () {
     $("#imageExplanation").text(currentImage.desc);
   }
 
+  function loadFavourites() {
+    getFavourites().then(function (images) {
+      images.forEach(function (image) {
+        $('#photoArchive').append('<div class="row center ">\n' +
+          '    <div class="col offset-s4 s4">\n' +
+          '      <div class="card">\n' +
+          '        <div class="card-image">\n' +
+          '          <img src="' +
+          image.url +
+          '">\n' +
+          '          <span class="card-title">' +
+          image.title +
+          '</span>\n' +
+          '          <a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">add</i></a>\n' +
+          '        </div>\n' +
+          '        <div class="card-content">\n' +
+          '          <p>' +
+          image.desc +
+          '</p>\n' +
+          '        </div>\n' +
+          '      </div>\n' +
+          '    </div>\n' +
+          '  </div>');
+      })
+    })
+  }
+
   function addClickListeners() {
+    loadFavourites();
     $('#favouriteButton').click(function () {
 
       isTodayFavourite = !isTodayFavourite;

@@ -18,11 +18,13 @@ $(document).ready(function () {
       // User is signed in.
       $("#archiveButton").removeClass("hide");
       $("#logoutButton").removeClass("hide");
+      $("#infoLoginButton").addClass("hide");
     } else {
       isLoggedIn = false;
 
       // No user is signed in.
       $("#infoLoginButton").removeClass("hide");
+      $("#logoutButton").addClass("hide");
       $("#archiveButton").addClass("hide");
     }
   });

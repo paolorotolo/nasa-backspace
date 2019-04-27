@@ -15,6 +15,7 @@ $(document).ready(function () {
       // User is signed in.
       $("#archiveButton").removeClass("hide");
       $("#logoutButton").removeClass("hide");
+      $("#infoLoginButton").addClass("hide");
       loadFavourites()
 
     } else {
@@ -22,6 +23,7 @@ $(document).ready(function () {
 
       // No user is signed in.
       $("#infoLoginButton").removeClass("hide");
+      $("#logoutButton").addClass("hide");
       $("#archiveButton").addClass("hide");
     }
   });

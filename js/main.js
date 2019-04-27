@@ -10,7 +10,6 @@ $(document).ready(function () {
 
   // OBSERVE AUTH
   firebase.auth().onAuthStateChanged(function(user) {
-    console.log(user);
     if (user) {
       userId = user.uid;
       isLoggedIn = true;
@@ -19,6 +18,20 @@ $(document).ready(function () {
       $("#archiveButton").removeClass("hide");
       $("#logoutButton").removeClass("hide");
       $("#infoLoginButton").addClass("hide");
+
+      // Check if already favourite
+      checkIfIsFavourite(user.uid, getTodayImageId()).then(
+        function (isFavourite) {
+          isTodayFavourite = isFavourite;
+          if (isTodayFavourite) {
+            $('#favouriteFab').addClass("scale-in");
+            $('#favouriteButton').text("favorite");
+          } else {
+            $('#favouriteFab').addClass("scale-in");
+            $('#favouriteButton').text("favorite-border");
+          }
+        }
+      )
     } else {
       isLoggedIn = false;
 
@@ -73,11 +86,11 @@ $(document).ready(function () {
         if (isTodayFavourite) {
           $('#favouriteButton').text("favorite");
           generateMessage("Added to favourites");
-          editFavourites(userId, getTodayImageId(), currentImage, true);
+          editFavourites(userId, currentImage, true);
         } else {
           $('#favouriteButton').text("favorite_border");
           generateMessage("Removed from favourites");
-          editFavourites(userId, getTodayImageId(), currentImage, false);
+          editFavourites(userId, currentImage, false);
         }
       } else {
         generateMessage("Please log in first")
@@ -105,9 +118,4 @@ $(document).ready(function () {
       M.toast({html: text, classes: 'rounded'})
     }
 
-    function getTodayImageId(){
-      let currentDay = new Date();
-      currentDay.setUTCHours(0,0,0,0);
-      return +currentDay;
-    }
 });

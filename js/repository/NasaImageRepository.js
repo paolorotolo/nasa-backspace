@@ -5,18 +5,35 @@ async function getCurrentImage() {
 
   // Map json result to NasaImage
   return new NasaImage(
+    getTodayImageId(),
     result.title,
     result.explanation,
     result.url,
     result.hdurl);
 }
 
-function editFavourites(userId, imageId, nasaImage, favourite){
+function editFavourites(userId, nasaImage, favourite){
   if (favourite) {
-    firebase.database().ref('/').child(userId).child('favourites/').child(imageId).set(nasaImage);
+    firebase.database().ref('/').child(userId).child('favourites/').child(nasaImage.uid).set(nasaImage);
   } else {
-    firebase.database().ref('/').child(userId).child('favourites/').child(imageId).remove();
+    firebase.database().ref('/').child(userId).child('favourites/').child(nasaImage.uid).remove();
   }
+}
+
+async function removeFavourite(imageId, userId) {
+  await firebase.database().ref('/').child(userId).child('favourites/').child(imageId).remove();
+}
+
+function checkIfIsFavourite(userId, imageId) {
+  console.log(userId);
+  console.log(imageId);
+  return new Promise(exists => {
+    firebase.database().ref('/').child(userId).child('favourites/').child(imageId).once('value').then(
+      function (snapshot) {
+        exists(snapshot.exists());
+      }
+    );
+  })
 }
 
 function getFavourites(userId) {
@@ -34,4 +51,11 @@ function getFavourites(userId) {
         resolve(images);
       });
   })
+}
+
+
+function getTodayImageId(){
+  let currentDay = new Date();
+  currentDay.setUTCHours(0,0,0,0);
+  return +currentDay;
 }

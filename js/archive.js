@@ -31,9 +31,9 @@ $(document).ready(function () {
   addClickListeners();
 
   function loadFavourites() {
-    getFavourites(userId).then(function (images) {
-      console.log(images)
+    $('#photoArchive').empty();
 
+    getFavourites(userId).then(function (images) {
       if (images.length === 0) {
         // ADD EMPTY LAYOUT IF THERE ARE NO IMAGES
         $('#photoArchive').append('  <div class="row center-align center">\n' +
@@ -46,8 +46,9 @@ $(document).ready(function () {
       } else {
         // INFLATE CARDS
         images.forEach(function (image) {
+          // Image ID
           $('#photoArchive').append('<div class="row center ">\n' +
-            '    <div class="col offset-s4 s4">\n' +
+            '    <div class="col offset-m4 m4 s12">\n' +
             '      <div class="card">\n' +
             '        <div class="card-image">\n' +
             '          <img src="' +
@@ -56,7 +57,9 @@ $(document).ready(function () {
             '          <span class="card-title">' +
             image.title +
             '</span>\n' +
-            '          <a class="btn-floating btn-large halfway-fab waves-effect waves-light red"><i class="material-icons">add</i></a>\n' +
+            '          <a id="' +
+            image.uid +
+            '" class="btn-floating btn-large halfway-fab waves-effect waves-light teal"><i class="material-icons">favorite</i></a>\n' +
             '        </div>\n' +
             '        <div class="card-content">\n' +
             '          <p>' +
@@ -66,9 +69,23 @@ $(document).ready(function () {
             '      </div>\n' +
             '    </div>\n' +
             '  </div>');
-        })
+
+          // Add listeners
+          $("#" +
+            image.uid +
+            "").click(function () {
+            removeFromFavourite(image.uid);
+          });
+        });
       }
     })
+  }
+
+  function removeFromFavourite(imageId){
+    removeFavourite(imageId, userId).then(function () {
+      // Reload favourites
+      loadFavourites();
+    });
   }
 
   function addClickListeners() {

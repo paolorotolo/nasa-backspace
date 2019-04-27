@@ -28,7 +28,7 @@ $(document).ready(function () {
             $('#favouriteButton').text("favorite");
           } else {
             $('#favouriteFab').addClass("scale-in");
-            $('#favouriteButton').text("favorite-border");
+            $('#favouriteButton').text("favorite_border");
           }
         }
       )

@@ -26,6 +26,7 @@ $(document).ready(function () {
 
   function loadFavourites() {
     getFavourites().then(function (images) {
+      console.log(images)
       images.forEach(function (image) {
         $('#photoArchive').append('<div class="row center ">\n' +
           '    <div class="col offset-s4 s4">\n' +

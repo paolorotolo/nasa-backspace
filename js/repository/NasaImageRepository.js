@@ -23,7 +23,7 @@ function getFavourites(userId) {
   return new Promise(resolve => {
       let images = [];
 
-      firebase.database().ref('favourites/').child(userId).once('value').then(
+      firebase.database().ref('/').child(userId).child('favourites/').once('value').then(
       // Get each image form db and att to array
       function (snapshot) {
         snapshot.forEach(function(item) {

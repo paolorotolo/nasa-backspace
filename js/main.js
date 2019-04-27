@@ -16,15 +16,12 @@ $(document).ready(function () {
       isLoggedIn = true;
 
       // User is signed in.
-      $("#infoLoginButton").addClass("hide");
-      $("#infoLoginButton").addClass("hide");
-      $("#archiveButton").removeClass("hide")
+      $("#archiveButton").removeClass("hide");
       $("#logoutButton").removeClass("hide");
     } else {
       isLoggedIn = false;
 
       // No user is signed in.
-      $("#logoutButton").addClass("hide");
       $("#infoLoginButton").removeClass("hide");
       $("#archiveButton").addClass("hide");
     }
@@ -86,11 +83,11 @@ $(document).ready(function () {
     });
 
     $('#dismissInfo').click(function () {
-      $('#infoImage').addClass("hide");
+      $('#infoImage').removeClass("scale-in");
     });
 
     $('#infoImageButton').click(function () {
-      $('#infoImage').removeClass("hide");
+      $('#infoImage').addClass("scale-in");
     });
 
     $('#shareInfo').click(function () {

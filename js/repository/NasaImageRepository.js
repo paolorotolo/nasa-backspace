@@ -2,14 +2,32 @@ const NASA_ENDPOINT = "https://api.nasa.gov/planetary/apod?api_key=NNKOjkoul8n1C
 
 async function getCurrentImage() {
   let result = await performGetRequest(NASA_ENDPOINT);
+  let videoId = "";
+  let videoThumb = "";
 
-  // Map json result to NasaImage
-  return new NasaImage(
-    getTodayImageId(),
-    result.title,
-    result.explanation,
-    result.url,
-    result.hdurl);
+  if (result.media_type === "video") {
+    var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
+    var match = result.url.match(regExp);
+    videoId = (match&&match[7].length==11)? match[7] : false;
+
+
+    videoThumb = "https://img.youtube.com/vi/" + videoId + "/0.jpg";
+    // Map json result to NasaImage
+    return new NasaImage(
+      getTodayImageId(),
+      result.title,
+      result.explanation,
+      videoThumb,
+      videoThumb);
+  } else {
+    // Map json result to NasaImage
+    return new NasaImage(
+      getTodayImageId(),
+      result.title,
+      result.explanation,
+      result.url,
+      result.hdurl);
+  }
 }
 
 function editFavourites(userId, nasaImage, favourite){

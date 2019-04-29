@@ -65,6 +65,7 @@ function getFavourites(userId) {
           images.push(item.val());
         });
 
+        images.reverse();
         // When done return the array
         resolve(images);
       });

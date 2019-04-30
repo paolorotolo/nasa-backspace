@@ -11,12 +11,15 @@ $(document).ready(function () {
   // OBSERVE AUTH
   firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
+      // User is logged in
       userId = user.uid;
       isLoggedIn = true;
 
-      // User is signed in.
+      //  Show buttons
       $("#archiveButton").removeClass("hide");
       $("#logoutButton").removeClass("hide");
+
+      // Remove login
       $("#infoLoginButton").addClass("hide");
 
       // Check if already favourite
@@ -33,10 +36,13 @@ $(document).ready(function () {
         }
       )
     } else {
+      // Not signed in
       isLoggedIn = false;
 
-      // No user is signed in.
+      // Show login button
       $("#infoLoginButton").removeClass("hide");
+
+      // Remove buttons
       $("#logoutButton").addClass("hide");
       $("#archiveButton").addClass("hide");
     }
